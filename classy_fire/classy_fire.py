@@ -4,7 +4,7 @@
 import os
 import tiktoken
 from typing import Tuple
-from langchain.chat_models import AzureChatOpenAI
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
 
@@ -69,10 +69,16 @@ class LLMClassifier:
             token_list[0]: LLMClassifier.MAX_TOKEN_PRIOR
             for token_list in class_id_tokens
         }
-        self._llm_chat = AzureChatOpenAI(
-            deployment_name=deployment_name,
-            openai_api_base=os.environ.get("OPENAI_API_BASE"),
-            openai_api_version=os.environ.get("OPENAI_API_VERSION"),
+        # self._llm_chat = AzureChatOpenAI(
+        #     deployment_name=deployment_name,
+        #     openai_api_base=os.environ.get("OPENAI_API_BASE"),
+        #     openai_api_version=os.environ.get("OPENAI_API_VERSION"),
+        #     openai_api_key=os.environ.get("OPENAI_API_KEY"),
+        #     temperature=0,
+        #     max_tokens=1,
+        #     model_kwargs={"logit_bias": self._logit_bias},
+        # )
+        self._llm_chat = ChatOpenAI(
             openai_api_key=os.environ.get("OPENAI_API_KEY"),
             temperature=0,
             max_tokens=1,
